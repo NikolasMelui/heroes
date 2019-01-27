@@ -15,6 +15,10 @@ export class Planet extends Entity {
   })
   name: string;
 
+  @property({
+    type: 'string',
+  })
+  climate?: string;
 
   constructor(data?: Partial<Planet>) {
     super(data);
