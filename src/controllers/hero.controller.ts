@@ -17,12 +17,14 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {Hero} from '../models';
+import {Planet} from '../models';
+import {Species} from '../models';
 import {HeroRepository} from '../repositories';
 
 export class HeroController {
   constructor(
     @repository(HeroRepository)
-    public heroRepository : HeroRepository,
+    public heroRepository: HeroRepository,
   ) {}
 
   @post('/heroes', {
@@ -133,5 +135,47 @@ export class HeroController {
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.heroRepository.deleteById(id);
+  }
+
+  @get('/heroes/{id}/friend', {
+    responses: {
+      '200': {
+        description: 'Hero model instance (friend)',
+        content: {'application/json': {schema: {'x-ts-type': Hero}}},
+      },
+    },
+  })
+  async getFriend(
+    @param.path.number('id') heroId: typeof Hero.prototype.id,
+  ): Promise<Hero> {
+    return await this.heroRepository.friend(heroId);
+  }
+
+  @get('/heroes/{id}/planet', {
+    responses: {
+      '200': {
+        description: 'Character model instance',
+        content: {'application/json': {schema: {'x-ts-type': Planet}}},
+      },
+    },
+  })
+  async getPlanet(
+    @param.path.number('id') heroId: typeof Hero.prototype.id,
+  ): Promise<Planet> {
+    return await this.heroRepository.planet(heroId);
+  }
+
+  @get('/heroes/{id}/species', {
+    responses: {
+      '200': {
+        description: 'Character model instance',
+        content: {'application/json': {schema: {'x-ts-type': Species}}},
+      },
+    },
+  })
+  async getSpecies(
+    @param.path.number('id') heroId: typeof Hero.prototype.id,
+  ): Promise<Species> {
+    return await this.heroRepository.species(heroId);
   }
 }
