@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Planet} from './planet.model';
+import {Species} from './species.model';
 
 @model()
 export class Hero extends Entity {
@@ -15,21 +17,14 @@ export class Hero extends Entity {
   })
   name: string;
 
-  @property({
-    type: 'string',
-  })
+  @belongsTo(() => Hero, {keyTo: 'id'})
   friend?: string;
 
-  @property({
-    type: 'string',
-  })
+  @belongsTo(() => Planet, {keyTo: 'id'})
   planet?: string;
 
-  @property({
-    type: 'string',
-  })
+  @belongsTo(() => Species, {keyTo: 'id'})
   species?: string;
-
 
   constructor(data?: Partial<Hero>) {
     super(data);
